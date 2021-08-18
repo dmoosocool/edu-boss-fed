@@ -1,4 +1,4 @@
-import Vue, { VNode } from "vue";
+import Vue, { VNode } from 'vue';
 
 declare global {
   namespace JSX {
@@ -9,5 +9,13 @@ declare global {
     interface IntrinsicElements {
       [elem: string]: any;
     }
+  }
+}
+
+// jsx 支持组件属性
+declare module 'vue/types/options' {
+  interface ComponentOptions<V extends Vue> {
+    [propName: string]: any;
+    ref?: string;
   }
 }
