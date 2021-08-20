@@ -1,0 +1,21 @@
+.el-container {
+  min-height: 100vh;
+}
+
+.el-aside {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  background: transparent;
+}
+
+.el-header {
+  background: #f8f9fb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.el-main {
+  background: #e9eef3;
+}

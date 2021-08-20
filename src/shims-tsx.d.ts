@@ -1,4 +1,4 @@
-import Vue, { VNode } from 'vue';
+import Vue, { VNode } from 'vue'
 
 declare global {
   namespace JSX {
@@ -7,7 +7,7 @@ declare global {
     // tslint:disable no-empty-interface
     interface ElementClass extends Vue {}
     interface IntrinsicElements {
-      [elem: string]: any;
+      [elem: string]: any
     }
   }
 }
@@ -15,7 +15,7 @@ declare global {
 // jsx 支持组件属性
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    [propName: string]: any;
-    ref?: string;
+    [propName: string]: any
+    ref?: string
   }
 }

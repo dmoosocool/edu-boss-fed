@@ -1,0 +1,18 @@
+.header {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .header-left {
+    width: 300px;
+    .el-breadcrumb {
+      padding: 10px 0;
+    }
+  }
+  .el-dropdown-link {
+    display: flex;
+    align-items: center;
+  }
+}
