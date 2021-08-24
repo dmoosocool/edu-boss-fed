@@ -23,11 +23,8 @@ export default class Home extends Vue {
   private roles: Array<RoleRecord> = []
   private isDialogOpen = false
 
-  @ModelSync('isEdit', 'change', { type: Boolean })
-  private isEditValue = false
-
-  @ModelSync('roleId', 'change', { type: Number })
-  private roleIdValue: number | null = null
+  private isEditValue!: boolean
+  private roleIdValue!: number | null
 
   private async loadRoles() {
     this.loading = true
@@ -46,13 +43,12 @@ export default class Home extends Vue {
   }
 
   private onSuccess(): void {
-    console.log('handleAdd')
     this.isDialogOpen = false
     this.loadRoles()
   }
   private handleAdd(): void {
-    console.log('handleAdd')
     this.isEditValue = false
+    this.roleIdValue = null
     this.isDialogOpen = true
   }
 
@@ -163,15 +159,23 @@ export default class Home extends Vue {
         <el-dialog
           title={this.isEditValue ? '编辑角色' : '添加角色'}
           visible={this.isDialogOpen}
+          {...{
+            on: {
+              'update:visible': (val: boolean) => {
+                this.isDialogOpen = val
+              },
+            },
+          }}
           width="50%"
         >
-          <role-edit-form
-            show={this.isDialogOpen}
-            roleId={this.roleIdValue}
-            isEdit={this.isEditValue}
-            onSuccess={this.onSuccess}
-            onCancel={() => (this.isDialogOpen = false)}
-          />
+          {this.isDialogOpen && (
+            <role-edit-form
+              roleId={this.roleIdValue}
+              isEdit={this.isEditValue}
+              onSuccess={this.onSuccess}
+              onCancel={() => (this.isDialogOpen = false)}
+            />
+          )}
         </el-dialog>
       </div>
     )

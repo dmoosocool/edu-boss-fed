@@ -1,4 +1,4 @@
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, PropSync, Vue } from 'vue-property-decorator'
 import { createOrUpdate, getRoleById } from '@/services/role'
 
 import type { updateRoleParameter } from '@/services/role'
@@ -7,17 +7,19 @@ import type { updateRoleParameter } from '@/services/role'
   name: 'RoleEditForm',
 })
 export default class Home extends Vue {
-  @Prop([String, Number])
-  private readonly roleId!: string | number
+  @PropSync('roleId', [String, Number])
+  private readonly roleIdValue!: string | number
 
-  @Prop(Boolean)
-  private readonly isEdit!: boolean
+  @PropSync('isEdit', Boolean)
+  private readonly isEditValue!: boolean
 
+  private loading = true
   private role: updateRoleParameter = { code: '', name: '', description: '' }
 
   private async loadRole() {
-    const { data } = await getRoleById(this.roleId)
+    const { data } = await getRoleById(this.roleIdValue)
     this.role = data.data
+    this.loading = false
   }
 
   private async onSubmit(): Promise<void> {
@@ -27,13 +29,14 @@ export default class Home extends Vue {
   }
 
   private created() {
-    if (this.isEdit) this.loadRole()
+    if (this.isEditValue) this.loadRole()
+    else this.loading = false
   }
 
   protected render(): JSX.Element {
     return (
       <div>
-        <el-form>
+        <el-form v-loading={this.loading}>
           <el-form-item label="角色名称">
             <el-input v-model={this.role.name} />
           </el-form-item>
