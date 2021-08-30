@@ -86,7 +86,7 @@ export default class Home extends Vue {
               type="text"
               onClick={() =>
                 this.$router.push({
-                  name: 'alloc-menu',
+                  name: 'AllocationMenu',
                   params: { roleId: scope.row.id },
                 })
               }
@@ -97,7 +97,7 @@ export default class Home extends Vue {
               type="text"
               onClick={() =>
                 this.$router.push({
-                  name: 'alloc-resource',
+                  name: 'AllocationResource',
                   params: {
                     roleId: scope.row.id,
                   },

@@ -28,6 +28,28 @@ const routes: Array<RouteConfig> = [
         name: 'Role',
         component: () => import(/* webpackChunkName: 'Role' */ '@/views/Role'),
       },
+      {
+        path: '/role/:roleId/allocation-menu',
+        name: 'AllocationMenu',
+        component: () =>
+          import(
+            /* webpackChunkName: 'AllocationMenu' */ '@/views/Role/allocation-menu'
+          ),
+      },
+      {
+        path: '/role/:roleId/allocation-resource',
+        name: 'AllocationResource',
+        component: () =>
+          import(
+            /* webpackChunkName: 'AllocationResource' */ '@/views/Role/allocation-resource'
+          ),
+      },
+
+      {
+        path: '/menu',
+        name: 'Menu',
+        component: () => import(/* webpackChunkName: 'Menu' */ '@/views/Menu'),
+      },
     ],
   },
   {
