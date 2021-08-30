@@ -1,67 +1,31 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Layout from '@/components/Layout'
+import VueRouter from 'vue-router'
+import store from '@/store'
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+import routes from './modules'
 
 Vue.use(VueRouter)
 
-const routes: Array<RouteConfig> = [
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import(/* webpackChunkName: 'Login' */ '@/views/Login'),
-  },
-  {
-    path: '/',
-    component: Layout,
-    meta: {
-      requireAuth: true,
-    },
-    children: [
-      {
-        path: '',
-        name: 'Home',
-        component: () => import(/* webpackChunkName: 'Home' */ '@/views/Home'),
-      },
+const router = new VueRouter({ routes })
 
-      {
-        path: '/role',
-        name: 'Role',
-        component: () => import(/* webpackChunkName: 'Role' */ '@/views/Role'),
-      },
-      {
-        path: '/role/:roleId/allocation-menu',
-        name: 'AllocationMenu',
-        component: () =>
-          import(
-            /* webpackChunkName: 'AllocationMenu' */ '@/views/Role/allocation-menu'
-          ),
-      },
-      {
-        path: '/role/:roleId/allocation-resource',
-        name: 'AllocationResource',
-        component: () =>
-          import(
-            /* webpackChunkName: 'AllocationResource' */ '@/views/Role/allocation-resource'
-          ),
-      },
+router.beforeEach(async (to, from, next) => {
+  nprogress.start()
 
-      {
-        path: '/menu',
-        name: 'Menu',
-        component: () => import(/* webpackChunkName: 'Menu' */ '@/views/Menu'),
-      },
-    ],
-  },
-  {
-    path: '*',
-    name: 'NotFound',
-    component: () =>
-      import(/* webpackChunkName: 'NotFound' */ '@/views/NotFound'),
-  },
-]
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.state.user) {
+      return next({
+        name: 'login',
+        query: {
+          redirect: to.fullPath,
+        },
+      })
+    }
+  }
 
-const router = new VueRouter({
-  routes,
+  next()
 })
+
+router.afterEach(() => nprogress.done())
 
 export default router

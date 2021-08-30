@@ -1,10 +1,15 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getAllMenus, deleteMenu } from '@/services/menu'
+import type { MenuInfo } from '@/services/menu'
 @Component({
   name: 'MenuIndex',
 })
-export default class Home extends Vue {
-  private menus = []
+export default class MenuIndex extends Vue {
+  private menus: MenuInfo[] = []
+
+  private created() {
+    this.loadAllMenus()
+  }
 
   private async loadAllMenus() {
     const { data } = await getAllMenus()
@@ -12,7 +17,7 @@ export default class Home extends Vue {
   }
 
   private handleEdit(item: any) {
-    this.$router.push({ name: 'menu-edit', params: { id: item.id } })
+    this.$router.push({ name: 'MenuEdit', params: { id: item.id } })
   }
 
   private handleDelete(item: any) {
@@ -30,13 +35,13 @@ export default class Home extends Vue {
     const slots = {
       operations: (scope: any) => (
         <div>
-          <el-button size="mini" onClick={this.handleEdit(scope.row)}>
+          <el-button size="mini" onClick={() => this.handleEdit(scope.row)}>
             编辑
           </el-button>
           <el-button
             size="mini"
             type="danger"
-            onClick={this.handleDelete(scope.row)}
+            onClick={() => this.handleDelete(scope.row)}
           >
             删除
           </el-button>
@@ -47,7 +52,9 @@ export default class Home extends Vue {
       <div class="menu">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <el-button onClick={this.$router.push({ name: 'menu-create' })}>
+            <el-button
+              onClick={() => this.$router.push({ name: 'MenuCreate' })}
+            >
               添加菜单
             </el-button>
           </div>

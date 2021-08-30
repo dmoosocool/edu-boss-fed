@@ -2,7 +2,51 @@ import request from '@/utils/request'
 import type { AxiosPromise } from 'axios'
 import type { IBossResponse } from './base.dto'
 
-export const createOrUpdateMenu = (data: any) => {
+export interface MenuDto {
+  id?: number
+  parentId: number
+  name: string
+  href: string
+  icon?: string
+  orderNum?: number
+  description?: string
+  shown?: boolean
+}
+
+export interface RoleMenu {
+  createdBy: string
+  createdTime: string
+  description: string
+  href: string
+  icon: string
+  id: number
+  level: number
+  name: string
+  operatorId: number | null
+  orderNum: number
+  parentId: number
+  selected: boolean
+  shown: boolean
+  updatedBy: string
+  updatedTime: string
+  subMenuList: Array<RoleMenu> | null
+}
+
+export interface MenuInfo extends MenuDto {
+  createdBy: string
+  createdTime: string
+  updatedBy: string
+  updatedTime: string
+}
+
+export interface MenuInfoResp {
+  menuInfo: MenuInfo
+  parentMenuList: RoleMenu[]
+}
+
+export const createOrUpdateMenu = (
+  data: MenuDto,
+): AxiosPromise<IBossResponse<boolean>> => {
   return request({
     method: 'POST',
     url: '/boss/menu/saveOrUpdate',
@@ -10,7 +54,9 @@ export const createOrUpdateMenu = (data: any) => {
   })
 }
 
-export const getEditMenuInfo = (id: string | number = -1) => {
+export const getEditMenuInfo = (
+  id: string | number = -1,
+): AxiosPromise<IBossResponse<MenuInfoResp>> => {
   return request({
     method: 'GET',
     url: '/boss/menu/getEditMenuInfo',
@@ -20,14 +66,16 @@ export const getEditMenuInfo = (id: string | number = -1) => {
   })
 }
 
-export const getAllMenus = () => {
+export const getAllMenus = (): AxiosPromise<IBossResponse<MenuInfo[]>> => {
   return request({
     method: 'GET',
     url: '/boss/menu/getAll',
   })
 }
 
-export const deleteMenu = (id: number) => {
+export const deleteMenu = (
+  id: number,
+): AxiosPromise<IBossResponse<boolean>> => {
   return request({
     method: 'DELETE',
     url: `/boss/menu/${id}`,
@@ -50,25 +98,6 @@ export const allocateRoleMenus = (data: {
     url: '/boss/menu/allocateRoleMenus',
     data,
   })
-}
-
-export interface RoleMenu {
-  createdBy: string
-  createdTime: string
-  description: string
-  href: string
-  icon: string
-  id: number
-  level: number
-  name: string
-  operatorId: number | null
-  orderNum: number
-  parentId: number
-  selected: boolean
-  shown: boolean
-  updatedBy: string
-  updatedTime: string
-  subMenuList: Array<RoleMenu> | null
 }
 
 export const getRoleMenus = (

@@ -13,6 +13,13 @@ export default class Home extends Vue {
     this.userInfo = data.content
   }
 
+  private getRecords() {
+    const matched = this.$route.matched.filter(
+      item => item.meta && item.meta.title && item.meta.breadcrumb !== false,
+    )
+    console.log(matched)
+  }
+
   private handleLogout() {
     console.log('handleLogout')
     this.$confirm('确认退出吗？', '退出提示', {
@@ -46,6 +53,7 @@ export default class Home extends Vue {
 
   private created() {
     this.loadUserInfo()
+    this.getRecords()
   }
   protected render(): JSX.Element {
     return (
