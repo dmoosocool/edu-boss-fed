@@ -1,5 +1,6 @@
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getUserInfo, LoginUserInfo } from '@/services/user'
+import type { RouteRecord } from 'vue-router'
 import './index.scss'
 
 @Component({
@@ -7,6 +8,13 @@ import './index.scss'
 })
 export default class Home extends Vue {
   private userInfo: LoginUserInfo = { portrait: '', userName: '' }
+
+  private records: RouteRecord[] = []
+
+  @Watch('$route', { immediate: true, deep: true })
+  private onRouteChange() {
+    this.getRecords()
+  }
 
   private async loadUserInfo() {
     const { data } = await getUserInfo()
@@ -17,7 +25,7 @@ export default class Home extends Vue {
     const matched = this.$route.matched.filter(
       item => item.meta && item.meta.title && item.meta.breadcrumb !== false,
     )
-    console.log(matched)
+    this.records = matched
   }
 
   private handleLogout() {
@@ -60,7 +68,12 @@ export default class Home extends Vue {
       <div class="header">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item to={{ path: '/' }}>首页</el-breadcrumb-item>
-          <el-breadcrumb-item>课程管理</el-breadcrumb-item>
+          {this.records.length > 0 &&
+            this.records.map((record: RouteRecord) => (
+              <el-breadcrumb-item key={record.path}>
+                {record.meta.title}
+              </el-breadcrumb-item>
+            ))}
         </el-breadcrumb>
 
         <el-dropdown>

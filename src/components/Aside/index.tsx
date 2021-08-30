@@ -28,15 +28,15 @@ export default class Home extends Vue {
         >
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-lock"></i>
               <span>权限管理</span>
             </template>
             <el-menu-item index="/role">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-s-custom"></i>
               <span slot="title">角色管理</span>
             </el-menu-item>
             <el-menu-item index="/menu">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-menu"></i>
               <span slot="title">菜单管理</span>
             </el-menu-item>
             <el-menu-item index="/resource">
@@ -45,16 +45,16 @@ export default class Home extends Vue {
             </el-menu-item>
           </el-submenu>
           <el-menu-item index="/course">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-film"></i>
             <span slot="title">课程管理</span>
           </el-menu-item>
           <el-menu-item index="/user">
-            <i class="el-icon-document"></i>
+            <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
           <el-submenu index="4">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-document"></i>
               <span>广告管理</span>
             </template>
             <el-menu-item index="/advert">

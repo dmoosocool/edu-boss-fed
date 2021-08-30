@@ -25,15 +25,15 @@ const routes: RouteConfig = {
         title: '菜单管理',
       },
     },
-    // {
-    //   path: '/resource',
-    //   name: 'resource',
-    //   component: () =>
-    //     import(/* webpackChunkName: 'resource' */ '@/views/resource/index.vue'),
-    //   meta: {
-    //     title: '资源管理',
-    //   },
-    // },
+    {
+      path: '/resource',
+      name: 'Resource',
+      component: () =>
+        import(/* webpackChunkName: 'Resource' */ '@/views/Resource'),
+      meta: {
+        title: '资源管理',
+      },
+    },
     {
       path: '/menu/create',
       name: 'MenuCreate',

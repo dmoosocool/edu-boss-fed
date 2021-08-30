@@ -1,5 +1,5 @@
 import { Component, Vue, PropSync } from 'vue-property-decorator'
-import type {Form} from 'element-ui'
+import type { Form } from 'element-ui'
 import {
   RoleMenu,
   MenuDto,
@@ -50,7 +50,6 @@ export default class MenuCreateOrEdit extends Vue {
     } else {
       this.$message.warning(data.mesg)
     }
-
   }
 
   private onReset() {
@@ -115,7 +114,9 @@ export default class MenuCreateOrEdit extends Vue {
               <el-button type="primary" onClick={this.onSubmit}>
                 提交
               </el-button>
-              {!this.isEditValue && <el-button onClick={this.onReset}>重置</el-button>}
+              {!this.isEditValue && (
+                <el-button onClick={this.onReset}>重置</el-button>
+              )}
             </el-form-item>
           </el-form>
         </el-card>
