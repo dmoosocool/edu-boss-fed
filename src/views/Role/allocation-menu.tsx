@@ -1,4 +1,4 @@
-import { Component, Vue, Ref } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import type { Tree } from 'element-ui'
 import type { RoleMenu } from '@/services/menu'
 

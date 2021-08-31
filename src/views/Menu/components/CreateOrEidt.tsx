@@ -1,11 +1,6 @@
 import { Component, Vue, PropSync } from 'vue-property-decorator'
 import type { Form } from 'element-ui'
-import {
-  RoleMenu,
-  MenuDto,
-  getEditMenuInfo,
-  createOrUpdateMenu,
-} from '@/services/menu'
+import { MenuDto, getEditMenuInfo, createOrUpdateMenu } from '@/services/menu'
 
 @Component({
   name: 'MenuCreateOrEdit',

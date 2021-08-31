@@ -1,6 +1,8 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getAllMenus, deleteMenu } from '@/services/menu'
 import type { MenuInfo } from '@/services/menu'
+import type { TableColumnRow } from '@/services/base.dto'
+
 @Component({
   name: 'MenuIndex',
 })
@@ -16,13 +18,22 @@ export default class MenuIndex extends Vue {
     if (data.code === '000000') this.menus = data.data
   }
 
-  private handleEdit(item: any) {
-    this.$router.push({ name: 'MenuEdit', params: { id: item.id } })
+  private handleEdit(item: MenuInfo) {
+    if (!item.id) return this.$message.warning('数据错误')
+
+    this.$router.push({
+      name: 'MenuEdit',
+      params: { id: item.id?.toString() },
+    })
   }
 
-  private handleDelete(item: any) {
+  private handleDelete(item: MenuInfo) {
     this.$confirm('确认删除吗?', '删除提示', {})
       .then(async () => {
+        if (item.id === undefined) {
+          this.$message.warning('数据错误')
+          return
+        }
         const { data } = await deleteMenu(item.id)
         data.code === '000000' &&
           this.$message.success('删除成功') &&
@@ -33,7 +44,7 @@ export default class MenuIndex extends Vue {
 
   protected render(): JSX.Element {
     const slots = {
-      operations: (scope: any) => (
+      operations: (scope: TableColumnRow<MenuInfo>) => (
         <div>
           <el-button size="mini" onClick={() => this.handleEdit(scope.row)}>
             编辑

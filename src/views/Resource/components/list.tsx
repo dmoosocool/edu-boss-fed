@@ -1,13 +1,16 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getResourcePages } from '@/services/resource'
 import { getResourceCategories } from '@/services/resource-category'
+import type { ResourceCategory } from '@/services/resource-category'
+import type { getResourcePagesQueryDto } from '@/services/resource'
+import type { TableColumnRow } from '@/services/base.dto'
 import type { Form } from 'element-ui'
 
 @Component({
   name: 'ResourceList',
 })
 export default class ResourceList extends Vue {
-  private resources = []
+  private resources: getResourcePagesQueryDto[] = []
   private form = {
     name: '',
     url: '',
@@ -16,7 +19,7 @@ export default class ResourceList extends Vue {
     categoryId: null,
   }
   private totalCount = 0
-  private resourceCategories = []
+  private resourceCategories: ResourceCategory[] = []
   private isLoading = true
 
   private created() {
@@ -42,11 +45,11 @@ export default class ResourceList extends Vue {
     this.loadResources()
   }
 
-  private handleEdit(item: any) {
+  private handleEdit(item: ResourceCategory) {
     console.log('handleEdit', item)
   }
 
-  private handleDelete(item: any) {
+  private handleDelete(item: ResourceCategory) {
     console.log('handleDelete', item)
   }
 
@@ -69,7 +72,7 @@ export default class ResourceList extends Vue {
 
   protected render(): JSX.Element {
     const listSlots = {
-      operations: (scope: any) => (
+      operations: (scope: TableColumnRow<ResourceCategory>) => (
         <div>
           <el-button size="mini" onClick={() => this.handleEdit(scope.row)}>
             编辑
@@ -108,7 +111,7 @@ export default class ResourceList extends Vue {
                 key="item.id"
               ></el-option> */}
                   {this.resourceCategories.length > 0 &&
-                    this.resourceCategories.map((item: any) => (
+                    this.resourceCategories.map((item: ResourceCategory) => (
                       <el-option
                         label={item.name}
                         value={item.id}

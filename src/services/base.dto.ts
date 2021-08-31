@@ -20,3 +20,29 @@ export interface IBossResponsePageOrder {
   column: string
   asc: boolean
 }
+
+export interface IBossResponseCommonData {
+  createdBy: string
+  createdTime: string
+  updatedBy: string
+  updatedTime: string
+}
+
+export interface IBossResponsePage<T> {
+  current: number
+  hitCount: boolean
+  optimizeCountSql: boolean
+  orders: string[]
+  pages: number
+  searchCount: boolean
+  size: number
+  total: number
+  records: T[]
+}
+
+export interface TableColumnRow<T> {
+  $index: number
+  row: T
+  store: Vue
+  _self: Vue
+}

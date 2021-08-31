@@ -4,8 +4,11 @@ import {
   getAllResources,
   allocateRoleResources,
   getRoleResources,
+  IResource,
+  IRoleResource,
 } from '@/services/resource'
 import { getResourceCategories } from '@/services/resource-category'
+import type { ResourceCategory } from '@/services/resource-category'
 import type { Tree } from 'element-ui'
 
 @Component({
@@ -13,7 +16,7 @@ import type { Tree } from 'element-ui'
 })
 export default class Home extends Vue {
   private roleId!: string | number
-  public resources!: []
+  public resources!: ResourceCategory[]
   private checkedKeys: Array<number> = []
   private defaultProps = { children: 'children', label: 'name' }
   private loading = true
@@ -34,15 +37,17 @@ export default class Home extends Vue {
     const { data: resources } = resourceResp.data
     const { data: categories } = categoryResp.data
 
-    resources.map((r: any) => {
-      const category = categories.find((c: any) => c.id === r.categoryId)
+    resources.map((r: IResource) => {
+      const category = categories.find(
+        (c: ResourceCategory) => c.id === r.categoryId,
+      )
       if (category) {
         category.children = category.children || []
         category.children.push(r)
       }
     })
 
-    categories.map((item: any) => {
+    categories.map((item: ResourceCategory) => {
       item.id = Math.random()
     })
 
@@ -55,10 +60,10 @@ export default class Home extends Vue {
     this.getCheckedResources(data.data)
   }
 
-  private getCheckedResources(resources: any) {
-    resources.map((r: any) => {
+  private getCheckedResources(resources: IRoleResource[]) {
+    resources.map((r: IRoleResource) => {
       if (r.resourceList) {
-        r.resourceList.map((c: any) => {
+        r.resourceList.map((c: IResource) => {
           c.selected && (this.checkedKeys = [...this.checkedKeys, c.id])
         })
       }

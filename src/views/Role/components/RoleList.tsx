@@ -1,6 +1,7 @@
-import { Component, Vue, ModelSync } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { getRoles, deleteRole } from '@/services/role'
 import type { RoleRecord } from '@/services/role'
+import type { TableColumnRow } from '@/services/base.dto'
 
 import { AxiosError } from 'axios'
 import { Form } from 'element-ui'
@@ -52,13 +53,13 @@ export default class Home extends Vue {
     this.isDialogOpen = true
   }
 
-  private handleEdit(row: any): void {
+  private handleEdit(row: RoleRecord): void {
     this.isDialogOpen = true
     this.roleIdValue = row.id
     this.isEditValue = true
   }
 
-  private async handleDelete(row: any): Promise<void> {
+  private async handleDelete(row: RoleRecord): Promise<void> {
     try {
       await this.$confirm(`确认删除角色: ${row.name}?`, '删除提示')
       await deleteRole(row.id)
@@ -79,7 +80,7 @@ export default class Home extends Vue {
 
   protected render(): JSX.Element {
     const tableSlots = {
-      operations: (scope: any) => (
+      operations: (scope: TableColumnRow<RoleRecord>) => (
         <div>
           <div>
             <el-button
@@ -87,7 +88,7 @@ export default class Home extends Vue {
               onClick={() =>
                 this.$router.push({
                   name: 'AllocationMenu',
-                  params: { roleId: scope.row.id },
+                  params: { roleId: scope.row.id.toString() },
                 })
               }
             >
@@ -99,7 +100,7 @@ export default class Home extends Vue {
                 this.$router.push({
                   name: 'AllocationResource',
                   params: {
-                    roleId: scope.row.id,
+                    roleId: scope.row.id.toString(),
                   },
                 })
               }
