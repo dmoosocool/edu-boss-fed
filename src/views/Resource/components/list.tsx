@@ -1,13 +1,18 @@
 import { Component, Vue } from 'vue-property-decorator'
-import { getResourcePages } from '@/services/resource'
+import { getResourcePages, deleteResource } from '@/services/resource'
 import { getResourceCategories } from '@/services/resource-category'
+import ResourceFrom from './form'
 import type { ResourceCategory } from '@/services/resource-category'
 import type { getResourcePagesQueryDto } from '@/services/resource'
 import type { TableColumnRow } from '@/services/base.dto'
 import type { Form } from 'element-ui'
+import type { AxiosError } from 'axios'
 
 @Component({
   name: 'ResourceList',
+  components: {
+    ResourceFrom,
+  },
 })
 export default class ResourceList extends Vue {
   private resources: getResourcePagesQueryDto[] = []
@@ -21,6 +26,9 @@ export default class ResourceList extends Vue {
   private totalCount = 0
   private resourceCategories: ResourceCategory[] = []
   private isLoading = true
+  private isDialogOpen = false
+  private isEdit = false
+  private resourceId!: number | null
 
   private created() {
     this.loadResources()
@@ -46,11 +54,26 @@ export default class ResourceList extends Vue {
   }
 
   private handleEdit(item: ResourceCategory) {
+    this.isDialogOpen = true
+    this.isEdit = true
+    this.resourceId = item.id
     console.log('handleEdit', item)
   }
 
-  private handleDelete(item: ResourceCategory) {
-    console.log('handleDelete', item)
+  private async handleDelete(item: ResourceCategory) {
+    try {
+      await this.$confirm(`确认删除资源: ${item.name}?`, '删除提示')
+      await deleteResource(item.id)
+      this.$message.success('删除成功')
+      this.loadResources()
+      this.loadResourceCategories()
+    } catch (err) {
+      if (err && (err as AxiosError).response) {
+        this.$message.error('删除失败，请重试')
+      } else {
+        this.$message.info('取消删除')
+      }
+    }
   }
 
   private handleSizeChange(value: number) {
@@ -64,6 +87,15 @@ export default class ResourceList extends Vue {
     this.loadResources()
   }
 
+  private handleRepositoryEdit() {
+    this.isDialogOpen = true
+    this.isEdit = false
+  }
+
+  private onSuccess(): void {
+    this.isDialogOpen = false
+    this.loadResources()
+  }
   private onReset() {
     ;(this.$refs['form'] as Form).resetFields()
     this.form.current = 1
@@ -104,12 +136,6 @@ export default class ResourceList extends Vue {
                   placeholder="请选择资源分类"
                   clearable
                 >
-                  {/* <el-option
-                label="item.name"
-                value="item.id"
-                v-for="item in resourceCategories"
-                key="item.id"
-              ></el-option> */}
                   {this.resourceCategories.length > 0 &&
                     this.resourceCategories.map((item: ResourceCategory) => (
                       <el-option
@@ -134,6 +160,7 @@ export default class ResourceList extends Vue {
               </el-form-item>
             </el-form>
           </div>
+          <el-button onClick={this.handleRepositoryEdit}>添加资源</el-button>
           <el-table
             data={this.resources}
             style="width: 100%; margin-bottom: 20px"
@@ -170,6 +197,28 @@ export default class ResourceList extends Vue {
             total={this.totalCount}
           ></el-pagination>
         </el-card>
+
+        <el-dialog
+          title={this.isEdit ? '编辑资源' : '添加资源'}
+          visible={this.isDialogOpen}
+          {...{
+            on: {
+              'update:visible': (val: boolean) => {
+                this.isDialogOpen = val
+              },
+            },
+          }}
+          width="50%"
+        >
+          {this.isDialogOpen && (
+            <ResourceFrom
+              resourceId={this.resourceId}
+              isEdit={this.isEdit}
+              onSuccess={this.onSuccess}
+              onCancel={() => (this.isDialogOpen = false)}
+            />
+          )}
+        </el-dialog>
       </div>
     )
   }

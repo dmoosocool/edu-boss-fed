@@ -40,6 +40,15 @@ export interface IRoleResource extends IBossResponseCommonData {
   sort: number
   resourceList: IResource[]
 }
+
+export interface IResourceRequestDto {
+  id?: number
+  name: string
+  categoryId: number | null
+  url: string
+  description?: string
+}
+
 export const getResourcePages = (
   data: getResourcePagesQueryDto,
 ): AxiosPromise<IBossResponse<IBossResponsePage<getResourcePagesQueryDto>>> => {
@@ -76,5 +85,33 @@ export const getRoleResources = (
     params: {
       roleId,
     },
+  })
+}
+
+export const deleteResource = (
+  roleId: number,
+): AxiosPromise<IBossResponse<boolean>> => {
+  return request({
+    method: 'DELETE',
+    url: `/boss/resource/${roleId}`,
+  })
+}
+
+export const getResourceById = (
+  id: number | string,
+): AxiosPromise<IBossResponse<IResource>> => {
+  return request({
+    method: 'GET',
+    url: `/boss/resource/${id}`,
+  })
+}
+
+export const saveOrUpdate = (
+  data: IResourceRequestDto,
+): AxiosPromise<IBossResponse<boolean>> => {
+  return request({
+    method: 'POST',
+    url: '/boss/resource/saveOrUpdate',
+    data,
   })
 }

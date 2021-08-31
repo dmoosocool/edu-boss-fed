@@ -47,6 +47,7 @@ export default class Home extends Vue {
     this.isDialogOpen = false
     this.loadRoles()
   }
+
   private handleAdd(): void {
     this.isEditValue = false
     this.roleIdValue = null
