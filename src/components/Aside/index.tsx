@@ -61,7 +61,7 @@ export default class Home extends Vue {
               <i class="el-icon-setting"></i>
               <span slot="title">广告列表</span>
             </el-menu-item>
-            <el-menu-item index="/advert-space">
+            <el-menu-item index="/billboard">
               <i class="el-icon-setting"></i>
               <span slot="title">广告位列表</span>
             </el-menu-item>

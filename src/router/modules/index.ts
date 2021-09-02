@@ -1,7 +1,9 @@
 import type { RouteConfig } from 'vue-router'
 import Layout from '@/components/Layout'
-import authorityRoutes from './authority'
-import userRoutes from './user'
+import authority from './authority'
+import user from './user'
+import advert from './advert'
+import course from './course'
 
 const routes: RouteConfig[] = [
   {
@@ -28,8 +30,10 @@ const routes: RouteConfig[] = [
       },
     ],
   },
-  authorityRoutes,
-  userRoutes,
+  authority,
+  user,
+  advert,
+  course,
   {
     path: '*',
     name: 'NotFound',
