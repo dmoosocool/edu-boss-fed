@@ -6,7 +6,7 @@ import type { updateRoleParameter } from '@/services/role'
 @Component({
   name: 'RoleEditForm',
 })
-export default class Home extends Vue {
+export default class RoleEditForm extends Vue {
   @PropSync('roleId', [String, Number])
   private readonly roleIdValue!: string | number
 

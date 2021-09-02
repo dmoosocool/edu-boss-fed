@@ -3,7 +3,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   name: 'NotFound',
 })
-export default class Home extends Vue {
+export default class NotFound extends Vue {
   protected render(): JSX.Element {
     return (
       <div class="notfound">

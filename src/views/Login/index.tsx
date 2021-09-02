@@ -12,7 +12,7 @@ interface LoginRule {
 @Component({
   name: 'LoginIndex',
 })
-export default class Home extends Vue {
+export default class LoginIndex extends Vue {
   private form: LoginForm = {
     phone: '18201288771',
     password: '111111',

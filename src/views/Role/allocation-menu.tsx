@@ -11,7 +11,7 @@ import {
 @Component({
   name: 'AllocationMenu',
 })
-export default class Home extends Vue {
+export default class AllocationMenu extends Vue {
   private roleId!: string | number
   public menus: RoleMenu[] = []
   private checkedKeys: number[] = []

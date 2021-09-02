@@ -14,7 +14,7 @@ import type { Tree } from 'element-ui'
 @Component({
   name: 'AllocationResource',
 })
-export default class Home extends Vue {
+export default class AllocationResource extends Vue {
   private roleId!: string | number
   public resources!: ResourceCategory[]
   private checkedKeys: Array<number> = []

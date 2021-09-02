@@ -13,7 +13,7 @@ import RoleEditForm from './EditForm'
     RoleEditForm,
   },
 })
-export default class Home extends Vue {
+export default class RoleList extends Vue {
   private form = {
     current: 1,
     size: 50,

@@ -6,7 +6,7 @@ import RoleList from './components/RoleList'
     RoleList,
   },
 })
-export default class Home extends Vue {
+export default class RoleIndex extends Vue {
   protected render(): JSX.Element {
     return (
       <div class="role">

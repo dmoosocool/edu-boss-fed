@@ -3,7 +3,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   name: 'HomeIndex',
 })
-export default class Home extends Vue {
+export default class HomeIndex extends Vue {
   protected render(): JSX.Element {
     return (
       <div class="home">
