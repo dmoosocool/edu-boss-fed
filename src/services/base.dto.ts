@@ -30,11 +30,11 @@ export interface IBossResponseCommonData {
 
 export interface IBossResponsePage<T> {
   current: number
-  hitCount: boolean
-  optimizeCountSql: boolean
-  orders: string[]
+  hitCount?: boolean
+  optimizeCountSql?: boolean
+  orders?: string[]
   pages: number
-  searchCount: boolean
+  searchCount?: boolean
   size: number
   total: number
   records: T[]

@@ -11,37 +11,37 @@ const routes: RouteConfig = {
   children: [
     {
       path: '',
-      name: 'CourceIndex',
+      name: 'CourseIndex',
       component: () =>
-        import(/* webpackChunkName: 'CourceIndex' */ '@/views/Course'),
+        import(/* webpackChunkName: 'CourseIndex' */ '@/views/Course'),
     },
     {
       path: 'create',
-      name: 'CourceCreate',
+      name: 'CourseCreate',
       component: () =>
-        import(/* webpackChunkName: 'CourceCreate */ '@/views/Course/create'),
+        import(/* webpackChunkName: 'CourseCreate */ '@/views/Course/create'),
     },
     {
       path: ':courseId/edit',
-      name: 'CourceEdit',
+      name: 'CourseEdit',
       component: () =>
-        import(/* webpackChunkName: 'CourceEdit' */ '@/views/Course/edit'),
+        import(/* webpackChunkName: 'CourseEdit' */ '@/views/Course/edit'),
       props: true,
     },
     {
       path: ':courseId/section',
-      name: 'CourceSection',
+      name: 'CourseSection',
       component: () =>
         import(
-          /* webpackChunkName: 'CourceSection' */ '@/views/Course/section'
+          /* webpackChunkName: 'CourseSection' */ '@/views/Course/section'
         ),
       props: true,
     },
     {
       path: ':courseId/video',
-      name: 'CourceVideo',
+      name: 'CourseVideo',
       component: () =>
-        import(/* webpackChunkName: 'CourceVideo' */ '@/views/Course/video'),
+        import(/* webpackChunkName: 'CourseVideo' */ '@/views/Course/video'),
       props: true,
     },
   ],

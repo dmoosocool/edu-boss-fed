@@ -1,13 +1,19 @@
-import { Component, Vue } from 'vue-property-decorator'
-
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import CreateOrUpdate from './components/createOrUpdate'
 @Component({
   name: 'CourseCreate',
+  components: {
+    CreateOrUpdate,
+  },
 })
 export default class CourseCreate extends Vue {
+  @Prop({ type: [String, Number], required: true })
+  private courseId!: string | number
+
   protected render(): JSX.Element {
     return (
-      <div class="notfound">
-        <h1>课程管理</h1>
+      <div class="course-create">
+        <CreateOrUpdate isEdit courseId={this.courseId} />
       </div>
     )
   }

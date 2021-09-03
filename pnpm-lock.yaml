@@ -19,6 +19,7 @@ specifiers:
   eslint: ^6.7.2
   eslint-plugin-prettier: ^3.3.1
   eslint-plugin-vue: ^6.2.2
+  moment: ^2.29.1
   nprogress: ^0.2.0
   prettier: ^2.2.1
   qs: ^6.10.1
@@ -33,11 +34,13 @@ specifiers:
   vue-router: ^3.2.0
   vue-template-compiler: ^2.6.11
   vuex: ^3.4.0
+  wangeditor: ^4.7.7
 
 dependencies:
   axios: 0.21.1
   core-js: registry.nlark.com/core-js/3.16.2
   element-ui: registry.nlark.com/element-ui/2.15.5_vue@2.6.14
+  moment: 2.29.1
   nprogress: 0.2.0
   qs: 6.10.1
   regenerator-runtime: registry.nlark.com/regenerator-runtime/0.13.9
@@ -46,6 +49,7 @@ dependencies:
   vue-property-decorator: registry.nlark.com/vue-property-decorator/9.1.2_cc5a81cd4d75b7f9736a3e9b263f47e5
   vue-router: registry.nlark.com/vue-router/3.5.2
   vuex: registry.nlark.com/vuex/3.6.2_vue@2.6.14
+  wangeditor: registry.nlark.com/wangeditor/4.7.7
 
 devDependencies:
   '@types/nprogress': registry.nlark.com/@types/nprogress/0.2.0
@@ -2955,6 +2959,10 @@ packages:
     dependencies:
       minimist: 1.2.5
     dev: true
+
+  /moment/2.29.1:
+    resolution: {integrity: sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M=, tarball: moment/download/moment-2.29.1.tgz}
+    dev: false
 
   /move-concurrently/1.0.1:
     resolution: {integrity: sha1-viwAX9oy4LKa8fBdfEszIUxwH5I=, tarball: move-concurrently/download/move-concurrently-1.0.1.tgz}
@@ -6041,14 +6049,23 @@ packages:
       - supports-color
     dev: true
 
+  registry.nlark.com/@babel/runtime-corejs3/7.15.4:
+    resolution: {integrity: sha1-QDE5ryYrmm6Pm6BKb9zr+N5pK/E=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@babel/runtime-corejs3/download/@babel/runtime-corejs3-7.15.4.tgz}
+    name: '@babel/runtime-corejs3'
+    version: 7.15.4
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      core-js-pure: registry.nlark.com/core-js-pure/3.17.2
+      regenerator-runtime: registry.nlark.com/regenerator-runtime/0.13.9
+    dev: false
+
   registry.nlark.com/@babel/runtime/7.15.3:
-    resolution: {integrity: sha1-LhwogMoRjlsvmYgyK9inZWoyUCs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.15.3.tgz?cache=0&sync_timestamp=1628668837667&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.15.3.tgz}
+    resolution: {integrity: sha1-LhwogMoRjlsvmYgyK9inZWoyUCs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.15.3.tgz}
     name: '@babel/runtime'
     version: 7.15.3
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.nlark.com/regenerator-runtime/0.13.9
-    dev: true
 
   registry.nlark.com/@babel/template/7.14.5:
     resolution: {integrity: sha1-qbydizM1T/blWpxg0RCSAKaJdPQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@babel/template/download/@babel/template-7.14.5.tgz}
@@ -7409,6 +7426,13 @@ packages:
       browserslist: registry.nlark.com/browserslist/4.16.7
       semver: 7.0.0
     dev: true
+
+  registry.nlark.com/core-js-pure/3.17.2:
+    resolution: {integrity: sha1-umMRtqoeLyreukrG7FGp/0C9wa8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/core-js-pure/download/core-js-pure-3.17.2.tgz?cache=0&sync_timestamp=1630603390918&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js-pure%2Fdownload%2Fcore-js-pure-3.17.2.tgz}
+    name: core-js-pure
+    version: 3.17.2
+    requiresBuild: true
+    dev: false
 
   registry.nlark.com/core-js/2.6.12:
     resolution: {integrity: sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1629206099454&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz}
@@ -10019,7 +10043,6 @@ packages:
     resolution: {integrity: sha1-6KM1rdXOrlGqJh0ypJAVjvBC7wE=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/tslib/download/tslib-2.3.1.tgz}
     name: tslib
     version: 2.3.1
-    dev: true
 
   registry.nlark.com/tslint/5.20.1_typescript@4.1.6:
     resolution: {integrity: sha1-5AHortoBUrxE3QfmFANPP4DGe30=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/tslint/download/tslint-5.20.1.tgz}
@@ -10248,6 +10271,16 @@ packages:
       vue: ^2.0.0
     dependencies:
       vue: registry.nlark.com/vue/2.6.14
+    dev: false
+
+  registry.nlark.com/wangeditor/4.7.7:
+    resolution: {integrity: sha1-PWAPPL7N54+Bd4MNbLCB2x+nwZo=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/wangeditor/download/wangeditor-4.7.7.tgz}
+    name: wangeditor
+    version: 4.7.7
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.15.3
+      '@babel/runtime-corejs3': registry.nlark.com/@babel/runtime-corejs3/7.15.4
+      tslib: registry.nlark.com/tslib/2.3.1
     dev: false
 
   registry.nlark.com/watchpack/1.7.5:
