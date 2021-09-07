@@ -128,17 +128,21 @@ export default class CourseIndex extends Vue {
             <el-table-column prop="price" label="价格"></el-table-column>
             <el-table-column prop="sortNum" label="排序"></el-table-column>
             <el-table-column prop="status" label="上架状态">
-              {(scope: { row: ICourse }) => (
-                <el-switch
-                  v-model={scope.row.status}
-                  activeColor="#13ce66"
-                  inactiveColor="#ff4949"
-                  activeValue={1}
-                  inactiveValue={0}
-                  disabled={scope.row.isStatusLoading}
-                  onChange={() => this.onStateChange(scope.row)}
-                />
-              )}
+              {(scope: { row: ICourse }) => {
+                if (scope.row !== undefined) {
+                  return (
+                    <el-switch
+                      v-model={scope.row.status}
+                      activeColor="#13ce66"
+                      inactiveColor="#ff4949"
+                      activeValue={1}
+                      inactiveValue={0}
+                      disabled={scope.row.isStatusLoading}
+                      onChange={() => this.onStateChange(scope.row)}
+                    />
+                  )
+                }
+              }}
             </el-table-column>
             <el-table-column prop="price" label="操作" align="center">
               {(scope: { row: ICourse }) => (
@@ -148,7 +152,10 @@ export default class CourseIndex extends Vue {
                       this.$router.push({
                         name: 'CourseEdit',
                         params: {
-                          courseId: scope.row.id.toString(),
+                          courseId:
+                            scope.row.id === undefined
+                              ? ''
+                              : scope.row.id.toString(),
                         },
                       })
                     }
@@ -160,7 +167,10 @@ export default class CourseIndex extends Vue {
                       this.$router.push({
                         name: 'CourseSection',
                         params: {
-                          courseId: scope.row.id.toString(),
+                          courseId:
+                            scope.row.id === undefined
+                              ? ''
+                              : scope.row.id.toString(),
                         },
                       })
                     }

@@ -1,5 +1,11 @@
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import { saveOrUpdateCourse, getCourseById } from '@/services/course'
+import { Component, Vue, PropSync } from 'vue-property-decorator'
+import {
+  saveOrUpdateCourse,
+  getCourseById,
+  ICourse,
+  ITeacherDTO,
+  IActivityCourseDTO,
+} from '@/services/course'
 import CourseImage from './courseImage'
 import TextEditor from '@/components/TextEditor'
 import moment from 'moment'
@@ -16,11 +22,11 @@ interface IStep {
   },
 })
 export default class CourseCreateOrUpdate extends Vue {
-  @Prop({ type: Boolean, default: false })
-  private isEdit = false
+  @PropSync('isEdit', { type: Boolean, default: false })
+  private readonly isEditValue!: boolean
 
-  @Prop([String, Number])
-  private courseId: string | string = ''
+  @PropSync('courseId', { type: [String, Number], default: '' })
+  private readonly courseIdValue!: string
 
   private activeStep = 0
 
@@ -32,7 +38,7 @@ export default class CourseCreateOrUpdate extends Vue {
     { title: '课程详情', icon: 'el-icon-edit' },
   ]
 
-  private course = {
+  private course: ICourse = {
     // id: 0,
     courseName: '',
     brief: '',
@@ -71,11 +77,11 @@ export default class CourseCreateOrUpdate extends Vue {
   }
 
   private created() {
-    if (this.isEdit) this.loadCourse()
+    if (this.isEditValue) this.loadCourse()
   }
 
   private async loadCourse() {
-    const { data } = await getCourseById(this.courseId)
+    const { data } = await getCourseById(this.courseIdValue)
     const { activityCourseDTO } = data.data
     if (activityCourseDTO) {
       activityCourseDTO.beginTime = moment(activityCourseDTO.beginTime).format(
@@ -85,6 +91,8 @@ export default class CourseCreateOrUpdate extends Vue {
         'YYYY-MM-DD',
       )
     }
+
+    this.course = data.data
   }
 
   private async handleSave() {
@@ -138,12 +146,12 @@ export default class CourseCreateOrUpdate extends Vue {
               </el-form-item>
               <el-form-item label="讲师姓名">
                 <el-input
-                  v-model={this.course.teacherDTO.teacherName}
+                  v-model={(this.course.teacherDTO as ITeacherDTO).teacherName}
                 ></el-input>
               </el-form-item>
               <el-form-item label="讲师简介">
                 <el-input
-                  v-model={this.course.teacherDTO.description}
+                  v-model={(this.course.teacherDTO as ITeacherDTO).description}
                 ></el-input>
               </el-form-item>
               <el-form-item label="课程排序">
@@ -202,7 +210,10 @@ export default class CourseCreateOrUpdate extends Vue {
                 <div>
                   <el-form-item label="开始时间">
                     <el-date-picker
-                      v-model={this.course.activityCourseDTO.beginTime}
+                      v-model={
+                        (this.course.activityCourseDTO as IActivityCourseDTO)
+                          .beginTime
+                      }
                       type="date"
                       placeholder="选择日期时间"
                       value-format="yyyy-MM-dd"
@@ -210,7 +221,10 @@ export default class CourseCreateOrUpdate extends Vue {
                   </el-form-item>
                   <el-form-item label="结束时间">
                     <el-date-picker
-                      v-model={this.course.activityCourseDTO.endTime}
+                      v-model={
+                        (this.course.activityCourseDTO as IActivityCourseDTO)
+                          .endTime
+                      }
                       type="date"
                       placeholder="选择日期时间"
                       value-format="yyyy-MM-dd"
@@ -218,7 +232,10 @@ export default class CourseCreateOrUpdate extends Vue {
                   </el-form-item>
                   <el-form-item label="秒杀价">
                     <el-input
-                      v-model={this.course.activityCourseDTO.amount}
+                      v-model={
+                        (this.course.activityCourseDTO as IActivityCourseDTO)
+                          .amount
+                      }
                       type="number"
                     >
                       <template slot="append">元</template>
@@ -226,7 +243,10 @@ export default class CourseCreateOrUpdate extends Vue {
                   </el-form-item>
                   <el-form-item label="秒杀库存">
                     <el-input
-                      v-model={this.course.activityCourseDTO.stock}
+                      v-model={
+                        (this.course.activityCourseDTO as IActivityCourseDTO)
+                          .stock
+                      }
                       type="number"
                     >
                       <template slot="append">个</template>
@@ -241,10 +261,6 @@ export default class CourseCreateOrUpdate extends Vue {
             <div>
               <el-form-item label="课程详情">
                 <text-editor v-model={this.course.courseDescriptionMarkDown} />
-                <el-input
-                  v-model={this.course.courseDescriptionMarkDown}
-                  type="textarea"
-                ></el-input>
               </el-form-item>
               <el-form-item label="是否发布">
                 <el-switch

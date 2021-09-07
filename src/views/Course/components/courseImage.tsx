@@ -1,4 +1,4 @@
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, PropSync } from 'vue-property-decorator'
 import { uploadCourseImage } from '@/services/course'
 import './courseImage.scss'
 
@@ -9,22 +9,22 @@ export default class CourseImage extends Vue {
   private isUploading = false
   private percentage = 0
 
-  @Prop()
-  private value = ''
+  @PropSync('value', { type: String, default: '' })
+  private readonly imageValue!: string
 
-  @Prop({ default: 2 })
-  private limit = 2
+  @PropSync('limit', { type: Number, default: 2 })
+  private readonly limitValue!: number
 
   private beforeAvatarUpload(file: File): boolean {
     const isJPG = file.type === 'image/jpeg'
-    const isLt2M = file.size / 1024 / 1024 < this.limit
+    const isLt2M = file.size / 1024 / 1024 < this.limitValue
 
     if (!isJPG) {
       this.$message.error('上传头像只能是jpeg格式!')
     }
 
     if (!isLt2M) {
-      this.$message.error(`上传头像图片不能超过${this.limit}MB!`)
+      this.$message.error(`上传头像图片不能超过${this.limitValue}MB!`)
     }
 
     return isJPG && isLt2M
@@ -69,8 +69,8 @@ export default class CourseImage extends Vue {
             beforeUpload={this.beforeAvatarUpload}
             httpRequest={this.handleUpload}
           >
-            {this.value ? (
-              <img src={this.value} class="avatar" />
+            {this.imageValue ? (
+              <img src={this.imageValue} class="avatar" />
             ) : (
               <i class="el-icon-plus avatar-uploader-icon"></i>
             )}

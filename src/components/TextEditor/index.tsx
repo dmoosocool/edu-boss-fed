@@ -1,17 +1,17 @@
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { Component, Vue, PropSync, Watch } from 'vue-property-decorator'
 import E from 'wangeditor'
 import { uploadCourseImage } from '@/services/course'
 @Component({
   name: 'TextEditor',
 })
 export default class TextEditor extends Vue {
-  @Prop()
-  private value = ''
+  @PropSync('value', { type: String, default: '' })
+  private readonly EditorValue!: string
 
   @Watch('value')
   private onValueChanged(): void {
     if (!this.hasValue) {
-      this.editor?.txt.html(this.value)
+      this.editor?.txt.html(this.EditorValue)
       this.hasValue = true
     }
   }
@@ -23,12 +23,16 @@ export default class TextEditor extends Vue {
   private initEditor() {
     const editor = new E(this.$refs['editor'] as Element)
     this.editor = editor
-    editor.config.onchange = (value: string) => {
+    this.editor.config.onchange = (value: string) => {
       this.$emit('input', value)
     }
-    editor.create()
+    this.editor.create()
 
-    editor.config.customUploadImg = async (
+    if (this.EditorValue !== '') {
+      this.editor.txt.html(this.EditorValue)
+    }
+
+    this.editor.config.customUploadImg = async (
       resultFiles: File[],
       insertImageFn: (name: string) => void,
     ) => {
@@ -44,10 +48,6 @@ export default class TextEditor extends Vue {
   }
 
   protected render(): JSX.Element {
-    return (
-      <div ref="editor" class="text-editor">
-        <h1>404 Not Found</h1>
-      </div>
-    )
+    return <div ref="editor" class="text-editor"></div>
   }
 }

@@ -19,8 +19,8 @@ export interface ICourseChangeState {
 }
 
 export interface IActivityCourseDTO {
-  id: number
-  courseId: number
+  id?: number
+  courseId?: number
   beginTime: string
   endTime: string
   amount: number
@@ -28,66 +28,67 @@ export interface IActivityCourseDTO {
 }
 
 export interface ITeacherDTO {
-  id: number
-  courseId: number
+  id?: number
+  courseId?: number
   teacherName: string
   teacherHeadPicUrl: string
   position: string
-  discription: string
+  description: string
 }
 
 export interface ICourse {
   activityCourse: boolean
-  activityCourseDTO: null | IActivityCourseDTO
-  activityTime: null | string
-  activitySales: null | number
-  autoOnlineTime: null | string
+  activityCourseDTO?: null | IActivityCourseDTO
+  activityTime?: null | string
+  activitySales?: null | number
+  autoOnlineTime: string
   brief: string
-  brokerageRate: null | number
-  compareTime: null | string
-  courseDescription: string
+  brokerageRate?: null | number
+  compareTime?: null | string
+  courseDescription?: null | string
   courseDescriptionMarkDown: string
   courseImgUrl: string
   courseListImg: string
   courseName: string
-  courseUrl: null | string
-  createTime: string
+  courseUrl?: null | string
+  createTime?: string
   discounts: number
   discountsTag: string
-  distributionCopyriter: null | string
-  distributionPosterImage: null | string
-  h5url: null | string
-  id: number
-  isBuy: boolean
-  isDel: boolean
+  distributionCopyriter?: null | string
+  distributionPosterImage?: null | string
+  h5url?: null | string
+  id?: number
+  isBuy?: boolean
+  isDel?: boolean
+  isNew: boolean
   isNewDes: string
-  isStatusLoading: boolean
-  joinDistribution: null
-  lastLearnLessonName: null | string
-  lastNoticeTime: null | string
-  lastOperatorId: null | string
-  lessonUpdateCount: null | number
+  isStatusLoading?: boolean
+  joinDistribution?: null
+  lastLearnLessonName?: null | string
+  lastNoticeTime?: null | string
+  lastOperatorId?: null | string
+  lessonUpdateCount?: null | number
   previewFirstField: string
   previewSecondField: string
   price: number
   priceTag: string
   sales: number
-  sectionDTOS: null
-  seoDescription: null | string
-  seoKeywords: null | string
-  seoTitle: null | string
-  shareDescription: null | string
-  shareImageTitle: null | string
-  shareTitle: null | string
+  sectionDTOS?: null
+  seoDescription?: null | string
+  seoKeywords?: null | string
+  seoTitle?: null | string
+  shareDescription?: null | string
+  shareImageTitle?: null | string
+  shareTitle?: null | string
   sortNum: number
   status: number
-  tag: null | string
-  teacherId: null | number
-  teacherDTO: null | ITeacherDTO
-  topNCourseLesson: null | string
-  totalCourseTime: null | string
-  totalDuration: null | string
-  updateTime: string
+  tag?: null | string
+  teacherId?: null | number
+  teacherDTO?: null | ITeacherDTO
+  topNCourseLesson?: null | string
+  totalCourseTime?: null | string
+  totalDuration?: null | string
+  updateTime?: string
 }
 
 export const getQueryCourses = (

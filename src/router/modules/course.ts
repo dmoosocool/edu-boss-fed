@@ -19,7 +19,7 @@ const routes: RouteConfig = {
       path: 'create',
       name: 'CourseCreate',
       component: () =>
-        import(/* webpackChunkName: 'CourseCreate */ '@/views/Course/create'),
+        import(/* webpackChunkName: 'CourseCreate' */ '@/views/Course/create'),
     },
     {
       path: ':courseId/edit',
