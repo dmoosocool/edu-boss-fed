@@ -15,8 +15,28 @@ import {
 })
 export default class CourseSection extends Vue {
   @PropSync('courseId', { type: [String, Number], required: true })
-  private courseIdValue!: string | number
-  private course!: ICourse
+  private readonly courseIdValue!: string | number
+
+  private course: ICourse = {
+    courseName: '',
+    activityCourse: false,
+    autoOnlineTime: '',
+    brief: '',
+    courseDescriptionMarkDown: '',
+    courseImgUrl: '',
+    courseListImg: '',
+    discounts: 0,
+    discountsTag: '',
+    isNew: false,
+    isNewDes: '',
+    previewFirstField: '',
+    previewSecondField: '',
+    price: 0,
+    priceTag: '',
+    sales: 0,
+    sortNum: 0,
+    status: 0,
+  }
 
   private defaultProps = {
     children: 'lessonDTOS',
@@ -67,7 +87,7 @@ export default class CourseSection extends Vue {
       orderNum: 0,
       status: 0,
     }
-    this.isAddLessonShow = true
+    this.isAddSectionShow = true
   }
 
   private async handleAddSection() {
@@ -110,19 +130,22 @@ export default class CourseSection extends Vue {
       orderNum: 0,
       status: 0,
     }
+    this.isAddLessonShow = true
   }
 
   private async handleAddLesson() {
     await saveOrUpdateLesson(this.lesson)
     this.$message.success('操作成功')
     this.loadSections()
-    this.isAddSectionShow = false
+    this.isAddLessonShow = false
   }
 
   private handleShowEditLesson(lesson: ILesson, section: ISection) {
     this.lesson = lesson
-    this.section.sectionName = section.sectionName
+    this.lesson.sectionName = section.sectionName
     this.isAddLessonShow = true
+
+    console.log(this.section)
   }
 
   private handleAllowDrop(draggingNode: any, dropNode: any, type: string) {
@@ -176,23 +199,31 @@ export default class CourseSection extends Vue {
           </div>
           <el-tree
             data={this.sections}
-            props={this.defaultProps}
+            props={{ props: this.defaultProps }}
             draggable
             allowDrop={this.handleAllowDrop}
             v-loading={this.isLoading}
             onNodeDrop={this.handleSort}
           >
-            {(node: any, data: any) => (
+            {({ node, data }: { node: any; data: any }) => (
               <div class="inner">
                 <span>{node.label}</span>
                 {data.sectionName ? (
                   <span class="action">
-                    <el-button onClick={() => this.handleEditSectionShow(data)}>
+                    <el-button
+                      onClick={(e: Event) => {
+                        e.stopPropagation()
+                        this.handleEditSectionShow(data)
+                      }}
+                    >
                       编辑
                     </el-button>
                     <el-button
                       type="primary"
-                      onClick={this.handleShowAddLesson}
+                      onClick={(e: Event) => {
+                        e.stopPropagation()
+                        this.handleShowAddLesson(data)
+                      }}
                     >
                       添加课时
                     </el-button>
@@ -252,28 +283,35 @@ export default class CourseSection extends Vue {
         <el-dialog
           title="添加课程阶段"
           visible={this.isAddSectionShow}
-          on={{
-            'visible:update': (status: boolean) =>
-              (this.isAddSectionShow = status),
+          {...{
+            on: {
+              'update:visible': (value: boolean) => {
+                this.isAddSectionShow = value
+              },
+            },
           }}
         >
-          <el-form ref="section-form" model={this.section} labelWidth="70px">
+          <el-form
+            ref="section-form"
+            props={{ model: this.section }}
+            labelWidth="70px"
+          >
             <el-form-item label="课程名称">
               <el-input
-                value={this.course.courseName}
+                v-model={this.course.courseName}
                 autocomplete="off"
                 disabled
               ></el-input>
             </el-form-item>
             <el-form-item label="章节名称" prop="sectionName">
               <el-input
-                value={this.section.sectionName}
+                v-model={this.section.sectionName}
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <el-form-item label="章节描述" prop="description">
               <el-input
-                value={this.section.description}
+                v-model={this.section.description}
                 type="textarea"
                 autocomplete="off"
               ></el-input>
@@ -294,59 +332,68 @@ export default class CourseSection extends Vue {
           </div>
         </el-dialog>
 
-        <el-dialog
-          title="添加课时"
-          visible={this.isAddLessonShow}
-          on={{
-            'visible:update': (status: boolean) =>
-              (this.isAddLessonShow = status),
-          }}
-        >
-          <el-form ref="lesson-form" model={this.lesson} labelWidth="100px">
-            <el-form-item label="课程名称">
-              <el-input
-                value={this.course.courseName}
-                autocomplete="off"
-                disabled
-              />
-            </el-form-item>
+        {this.isAddLessonShow && (
+          <el-dialog
+            title="添加课时"
+            visible={this.isAddLessonShow}
+            {...{
+              on: {
+                'update:visible': (value: boolean) => {
+                  this.isAddLessonShow = value
+                },
+              },
+            }}
+          >
+            <el-form
+              ref="lesson-form"
+              props={{ model: this.lesson }}
+              labelWidth="100px"
+            >
+              <el-form-item label="课程名称">
+                {console.log('课程名称', this.course.courseName, this.lesson)}
+                <el-input
+                  v-model={this.course.courseName}
+                  autocomplete="off"
+                  disabled
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="章节名称" prop="sectionName">
+                <el-input
+                  v-model={this.lesson.sectionName}
+                  disabled
+                  autocomplete="off"
+                />
+              </el-form-item>
+              <el-form-item label="课时名称" prop="theme">
+                <el-input v-model={this.lesson.theme} autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="时长" prop="duration">
+                <el-input
+                  v-model={this.lesson.duration}
+                  type="number"
+                  autocomplete="off"
+                >
+                  <span slot="append">分钟</span>
+                </el-input>
+              </el-form-item>
+              <el-form-item label="是否开放试听" prop="isFree">
+                <el-switch v-model={this.lesson.isFree} />
+              </el-form-item>
+              <el-form-item label="课时排序" prop="orderNum">
+                <el-input-number v-model={this.lesson.orderNum} />
+              </el-form-item>
+            </el-form>
+            <div class="dialog-footer" slot="footer">
+              <el-button onClick={() => (this.isAddLessonShow = false)}>
+                取消
+              </el-button>
 
-            <el-form-item label="章节名称" prop="sectionName">
-              <el-input
-                value={this.lesson.sectionName}
-                disabled
-                autocomplete="off"
-              />
-            </el-form-item>
-            <el-form-item label="课时名称" prop="theme">
-              <el-input value={this.lesson.theme} autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="时长" prop="duration">
-              <el-input
-                v-model={Number(this.lesson.duration)}
-                type="number"
-                autocomplete="off"
-              >
-                <span slot="append">分钟</span>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="是否开放试听" prop="isFree">
-              <el-switch value={this.lesson.isFree} />
-            </el-form-item>
-            <el-form-item label="课时排序" prop="orderNum">
-              <el-input-number v-model={Number(this.lesson.orderNum)} />
-            </el-form-item>
-          </el-form>
-          <div class="dialog-footer" slot="footer">
-            <el-button onClick={() => (this.isAddLessonShow = false)}>
-              取消
-            </el-button>
-
-            <el-button type="primary" onClick={this.handleAddLesson}>
-              确定
-            </el-button>
-          </div>
-        </el-dialog>
+              <el-button type="primary" onClick={this.handleAddLesson}>
+                确定
+              </el-button>
+            </div>
+          </el-dialog>
+        )}
       </div>
     )
   }
