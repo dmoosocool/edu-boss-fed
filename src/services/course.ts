@@ -36,6 +36,26 @@ export interface ITeacherDTO {
   description: string
 }
 
+export interface ISection {
+  id?: string | number
+  courseId: string | number
+  sectionName: string
+  description: string
+  orderNum: number
+  status: number
+}
+
+export interface ILesson {
+  courseId: string | number
+  sectionId: undefined | string | number
+  sectionName: string
+  theme: string
+  duration: number
+  isFree: boolean
+  orderNum: number
+  status: number
+}
+
 export interface ICourse {
   activityCourse: boolean
   activityCourseDTO?: null | IActivityCourseDTO
@@ -143,5 +163,41 @@ export const getCourseById = (
     params: {
       courseId,
     },
+  })
+}
+
+export const getSectionAndLesson = (courseId: string | number) => {
+  return request({
+    method: 'GET',
+    url: '/boss/course/section/getSectionAndLesson',
+    params: {
+      courseId,
+    },
+  })
+}
+
+export const saveOrUpdateSection = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/course/section/saveOrUpdateSection',
+    data,
+  })
+}
+
+export const getSectionById = (sectionId: string | number) => {
+  return request({
+    method: 'GET',
+    url: '/boss/course/section/getBySectionId',
+    params: {
+      sectionId,
+    },
+  })
+}
+
+export const saveOrUpdateLesson = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/course/lesson/saveOrUpdate',
+    data,
   })
 }
